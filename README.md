@@ -14,3 +14,8 @@ ABSP:  440
 
 [How do I download a website using Python 3](https://stackoverflow.com/questions/4485113/how-do-i-download-a-website-using-python-3)
 
+[How to download a HTML web page using Selenium with Python?](https://stackoverflow.com/questions/42900214/how-to-download-a-html-webpage-using-selenium-with-python)
+
+* also explains how to get complete page source including CSS, JS
+
+https://stackoverflow.com/questions/39874765/how-to-get-the-url-of-the-current-window-using-selenium-webdriver-in-c/39875128

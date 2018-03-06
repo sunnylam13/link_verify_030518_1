@@ -66,6 +66,16 @@ logging.debug(len(linkElems) > 1)
 # flag any pages that have 404 "Not Found" status code
 # print the 404 pages out as broken links
 
+# def download_page_1(tag_object):
+# 	# with open("/path/to/page_source.html", "w") as f:
+# 	# 	f.write(driver.page_source)
+ 
+# # for x in linkElems:
+# # 	print(x)
+
+for x in linkElems:
+	# print(x)
+
 #####################################
 # END DOWNLOAD ALL LINKED PAGES
 #####################################
