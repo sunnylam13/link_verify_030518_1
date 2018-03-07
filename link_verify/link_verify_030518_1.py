@@ -29,8 +29,8 @@ linkList = []
 
 # user_url_input = input("Please provide the URL of the page that you want to run link verification on:\n")
 
-# user_url_input = "http://dnd.wizards.com" # for testing
-user_url_input = "https://www.freebsd.org/doc/handbook/mirrors-ftp.html" # for testing
+user_url_input = "http://dnd.wizards.com" # for testing
+# user_url_input = "https://www.freebsd.org/doc/handbook/mirrors-ftp.html" # for testing
 
 logging.debug('The user targeted the followign URL %s' % (user_url_input))
 
@@ -53,13 +53,17 @@ logging.debug(res.status_code)
 logging.debug('Is status code true?\n')
 logging.debug(res.status_code == requests.codes.ok)
 
+# see what all the links 
+
 # generate a list of all the links
 # you will try to extract all the link data
 
 browser = webdriver.Chrome()
 browser.get(user_url_input)
 
-linkElems = browser.find_elements_by_css_selector('a') # generate a list object with all link elements
+# linkElems = browser.find_elements_by_css_selector('a') # generate a list object with all link elements
+# linkElems = browser.find_elements_by_class_name('cta-button')
+linkElems = browser.find_elements_by_css_selector('a.cta-button')
 logging.debug("Generate a list of all link elements on the page:\n")
 # logging.debug(linkElems)
 logging.debug(len(linkElems) > 1)
@@ -77,10 +81,6 @@ logging.debug(len(linkElems) > 1)
 # flag any pages that have 404 "Not Found" status code
 # print the 404 pages out as broken links
 
-# def download_page_1(tag_object):
-# 	# with open("/path/to/page_source.html", "w") as f:
-# 	# 	f.write(driver.page_source)
- 
 # # for x in linkElems:
 # # 	print(x)
 
@@ -94,19 +94,29 @@ for x in linkElems:
 		linkUrl = browser.current_url()
 		logging.debug("URL of the current page is:  ")
 		linkList.append(linkUrl)
-		# browser.back() # go back
+		browser.back() # go back
 	except Exception as e:
 		logging.debug("Error clicking on the link.\n")
 		logging.debug(e)
-		pass # continue on to the next item
+		continue # continue on to the next item
 	else:
-		pass
+		continue
 	
 logging.debug("The list of clicked links is:\n")
 logging.debug(linkList)
 
 #####################################
 # END DOWNLOAD ALL LINKED PAGES
+#####################################
+
+#####################################
+# EXECUTION ZONE
+#####################################
+
+# download_page_source_1(browser)
+
+#####################################
+# END EXECUTION ZONE
 #####################################
 
 
