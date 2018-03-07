@@ -127,7 +127,9 @@ logging.debug(linkList)
 # flag any pages that have 404 "Not Found" status code
 # print the 404 pages out as broken links
 
-
+for linkItem in linkList:
+	logging.debug('Downloading link:  ' % (linkItem))
+	download_page_1(linkItem)
 
 #####################################
 # END DOWNLOAD ALL LINKED PAGES
