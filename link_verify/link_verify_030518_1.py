@@ -52,7 +52,7 @@ def check_for_404(linkPassed):
 	else: 
 		return linkPassed
 
-def download_page_1(linkPassed):
+def download_page_1(linkPassed,x):
 
 	linkChecked = check_for_404(linkPassed)
 
@@ -70,7 +70,10 @@ def download_page_1(linkPassed):
 	except Exception as exc:
 		print('There was a problem:  %s' % (exc))
 
-	source_file = open('./pages_dl/' + linkChecked + '.html','wb') # create file that will be written
+	# new_target_file_link = './pages_dl/' + linkChecked + '.html'
+	new_target_file_link = 'file' + str(x) + '.html'
+
+	source_file = open(new_target_file_link,'wb') # create file that will be written
 	for chunk in res.iter_content(100000):
 		source_file.write(chunk)
 	source_file.close()
@@ -127,9 +130,20 @@ logging.debug(linkList)
 # flag any pages that have 404 "Not Found" status code
 # print the 404 pages out as broken links
 
+x = 1
+
 for linkItem in linkList:
-	logging.debug('Downloading link:  ' % (linkItem))
-	download_page_1(linkItem)
+	try:
+		logging.debug('Downloading link:  %s' % (linkItem))
+		download_page_1(linkItem,x)
+		x += 1
+	except Exception as e:
+		logging.debug('There was an error during file download.')
+		logging.debug(e)
+		pass # continue on
+	else:
+		pass
+
 
 #####################################
 # END DOWNLOAD ALL LINKED PAGES
