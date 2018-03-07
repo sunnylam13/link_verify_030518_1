@@ -153,7 +153,7 @@ for linkItem in linkList:
 # EXECUTION ZONE
 #####################################
 
-# download_page_source_1(browser)
+
 
 #####################################
 # END EXECUTION ZONE
