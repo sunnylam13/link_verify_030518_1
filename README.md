@@ -18,4 +18,5 @@ ABSP:  440
 
 * also explains how to get complete page source including CSS, JS
 
-https://stackoverflow.com/questions/39874765/how-to-get-the-url-of-the-current-window-using-selenium-webdriver-in-c/39875128
+[how do I get current url in selenium webdriver 2 Python](https://stackoverflow.com/questions/15985339/how-do-i-get-current-url-in-selenium-webdriver-2-python)
+
