@@ -12,6 +12,16 @@ logging.basicConfig(level=logging.DEBUG, format=" %(asctime)s - %(levelname)s - 
 # logging.disable(logging.CRITICAL)
 
 #####################################
+# GLOBAL VARIABLES
+#####################################
+
+linkList = []
+
+#####################################
+# END GLOBAL VARIABLES
+#####################################
+
+#####################################
 # USER INPUT
 #####################################
 
@@ -19,7 +29,8 @@ logging.basicConfig(level=logging.DEBUG, format=" %(asctime)s - %(levelname)s - 
 
 # user_url_input = input("Please provide the URL of the page that you want to run link verification on:\n")
 
-user_url_input = "http://dnd.wizards.com" # for testing
+# user_url_input = "http://dnd.wizards.com" # for testing
+user_url_input = "https://www.freebsd.org/doc/handbook/mirrors-ftp.html" # for testing
 
 logging.debug('The user targeted the followign URL %s' % (user_url_input))
 
@@ -74,7 +85,25 @@ logging.debug(len(linkElems) > 1)
 # # 	print(x)
 
 for x in linkElems:
-	# print(x)
+	try:
+		# print(x)
+		# click the link
+		logging.debug("Clicking the stored link...")
+		x.click() # click the link
+		# get the url of the page
+		linkUrl = browser.current_url()
+		logging.debug("URL of the current page is:  ")
+		linkList.append(linkUrl)
+		# browser.back() # go back
+	except Exception as e:
+		logging.debug("Error clicking on the link.\n")
+		logging.debug(e)
+		pass # continue on to the next item
+	else:
+		pass
+	
+logging.debug("The list of clicked links is:\n")
+logging.debug(linkList)
 
 #####################################
 # END DOWNLOAD ALL LINKED PAGES
