@@ -48,7 +48,32 @@ def check_for_404(linkPassed):
 	logging.debug(res.status_code)
 
 	if str(res.status_code) == "404": # make sure it's a string match up
-		pass
+		print("Broken link:  %s" % (linkPassed))
+	else: 
+		return linkPassed
+
+def download_page_1(linkPassed):
+
+	linkChecked = check_for_404(linkPassed)
+
+	res = requests.get(linkChecked)
+
+	logging.debug('The user request object:\n')
+	logging.debug(res)
+	logging.debug('The request status code is:\n')
+	logging.debug(res.status_code)
+	logging.debug('Is status code true?\n')
+	logging.debug(res.status_code == requests.codes.ok)
+
+	try:
+		res.raise_for_status()
+	except Exception as exc:
+		print('There was a problem:  %s' % (exc))
+
+	source_file = open('./pages_dl/' + linkChecked + '.html','wb') # create file that will be written
+	for chunk in res.iter_content(100000):
+		source_file.write(chunk)
+	source_file.close()
 
 # access the user provided page
 
@@ -86,9 +111,6 @@ source_file.close()
 
 logging.debug('The link list is:  ')
 logging.debug(linkList)
-
-
-
 
 
 
