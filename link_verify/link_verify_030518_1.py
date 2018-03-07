@@ -4,12 +4,10 @@
 # ! /usr/local/Cellar/python3/3.6.1
 
 import requests,bs4
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
 import logging
 logging.basicConfig(level=logging.DEBUG, format=" %(asctime)s - %(levelname)s - %(message)s")
-# logging.disable(logging.CRITICAL)
+logging.disable(logging.CRITICAL)
 
 #####################################
 # GLOBAL VARIABLES
