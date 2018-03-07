@@ -3,7 +3,7 @@
 #! python3
 # ! /usr/local/Cellar/python3/3.6.1
 
-import requests
+import requests,bs4
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -32,7 +32,7 @@ linkList = []
 user_url_input = "http://dnd.wizards.com" # for testing
 # user_url_input = "https://www.freebsd.org/doc/handbook/mirrors-ftp.html" # for testing
 
-logging.debug('The user targeted the followign URL %s' % (user_url_input))
+logging.debug('The user targeted the following URL %s' % (user_url_input))
 
 #####################################
 # END USER INPUT
@@ -53,20 +53,46 @@ logging.debug(res.status_code)
 logging.debug('Is status code true?\n')
 logging.debug(res.status_code == requests.codes.ok)
 
-# see what all the links 
+try:
+	res.raise_for_status()
+except Exception as exc:
+	print('There was a problem:  %s' % (exc))
 
-# generate a list of all the links
-# you will try to extract all the link data
+# store the user page
 
-browser = webdriver.Chrome()
-browser.get(user_url_input)
+source_file = open('init_src.html','wb') # create file that will be written
+for chunk in res.iter_content(100000):
+	source_file.write(chunk)
+source_file.close()
 
-# linkElems = browser.find_elements_by_css_selector('a') # generate a list object with all link elements
-# linkElems = browser.find_elements_by_class_name('cta-button')
-linkElems = browser.find_elements_by_css_selector('a.cta-button')
-logging.debug("Generate a list of all link elements on the page:\n")
-# logging.debug(linkElems)
-logging.debug(len(linkElems) > 1)
+# find all the links
+
+source_file = open('init_src.html','r') # open file for reading
+linkSoup = bs4.BeautifulSoup(source_file.read(),"html.parser")
+linkElems = linkSoup.select('a')
+
+for linkItem in linkElems:
+	linkList.append(user_url_input + linkItem.get('href')) # to create full url join `user_url_input` with `linkItem.get('href')`
+
+logging.debug('The link list is:  ')
+logging.debug(linkList)
+
+source_file.close()
+
+# # generate a list of all the links
+# # you will try to extract all the link data
+
+# browser = webdriver.Chrome()
+# browser.get(user_url_input)
+
+# # linkElems = browser.find_elements_by_css_selector('a') # generate a list object with all link elements
+# # linkElems = browser.find_elements_by_class_name('cta-button')
+# linkElems = browser.find_elements_by_css_selector('a.cta-button')
+# logging.debug("Generate a list of all link elements on the page:\n")
+# # logging.debug(linkElems)
+# logging.debug(len(linkElems) > 1)
+
+
 
 #####################################
 # END ANALYZE PAGE
@@ -84,26 +110,26 @@ logging.debug(len(linkElems) > 1)
 # # for x in linkElems:
 # # 	print(x)
 
-for x in linkElems:
-	try:
-		# print(x)
-		# click the link
-		logging.debug("Clicking the stored link...")
-		x.click() # click the link
-		# get the url of the page
-		linkUrl = browser.current_url()
-		logging.debug("URL of the current page is:  ")
-		linkList.append(linkUrl)
-		browser.back() # go back
-	except Exception as e:
-		logging.debug("Error clicking on the link.\n")
-		logging.debug(e)
-		continue # continue on to the next item
-	else:
-		continue
+# for x in linkElems:
+# 	try:
+# 		# print(x)
+# 		# click the link
+# 		logging.debug("Clicking the stored link...")
+# 		x.click() # click the link
+# 		# get the url of the page
+# 		linkUrl = browser.current_url()
+# 		logging.debug("URL of the current page is:  ")
+# 		linkList.append(linkUrl)
+# 		browser.back() # go back
+# 	except Exception as e:
+# 		logging.debug("Error clicking on the link.\n")
+# 		logging.debug(e)
+# 		continue # continue on to the next item
+# 	else:
+# 		continue
 	
-logging.debug("The list of clicked links is:\n")
-logging.debug(linkList)
+# logging.debug("The list of clicked links is:\n")
+# logging.debug(linkList)
 
 #####################################
 # END DOWNLOAD ALL LINKED PAGES
