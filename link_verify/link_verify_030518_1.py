@@ -42,6 +42,14 @@ logging.debug('The user targeted the following URL %s' % (user_url_input))
 # ANALYZE PAGE
 #####################################
 
+def check_for_404(linkPassed):
+	res = requests.get(linkPassed)
+	logging.debug('The request status code is:\n')
+	logging.debug(res.status_code)
+
+	if str(res.status_code) == "404": # make sure it's a string match up
+		pass
+
 # access the user provided page
 
 res = requests.get(user_url_input)
@@ -74,23 +82,13 @@ linkElems = linkSoup.select('a')
 for linkItem in linkElems:
 	linkList.append(user_url_input + linkItem.get('href')) # to create full url join `user_url_input` with `linkItem.get('href')`
 
+source_file.close()
+
 logging.debug('The link list is:  ')
 logging.debug(linkList)
 
-source_file.close()
 
-# # generate a list of all the links
-# # you will try to extract all the link data
 
-# browser = webdriver.Chrome()
-# browser.get(user_url_input)
-
-# # linkElems = browser.find_elements_by_css_selector('a') # generate a list object with all link elements
-# # linkElems = browser.find_elements_by_class_name('cta-button')
-# linkElems = browser.find_elements_by_css_selector('a.cta-button')
-# logging.debug("Generate a list of all link elements on the page:\n")
-# # logging.debug(linkElems)
-# logging.debug(len(linkElems) > 1)
 
 
 
@@ -107,29 +105,7 @@ source_file.close()
 # flag any pages that have 404 "Not Found" status code
 # print the 404 pages out as broken links
 
-# # for x in linkElems:
-# # 	print(x)
 
-# for x in linkElems:
-# 	try:
-# 		# print(x)
-# 		# click the link
-# 		logging.debug("Clicking the stored link...")
-# 		x.click() # click the link
-# 		# get the url of the page
-# 		linkUrl = browser.current_url()
-# 		logging.debug("URL of the current page is:  ")
-# 		linkList.append(linkUrl)
-# 		browser.back() # go back
-# 	except Exception as e:
-# 		logging.debug("Error clicking on the link.\n")
-# 		logging.debug(e)
-# 		continue # continue on to the next item
-# 	else:
-# 		continue
-	
-# logging.debug("The list of clicked links is:\n")
-# logging.debug(linkList)
 
 #####################################
 # END DOWNLOAD ALL LINKED PAGES
